@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pocketday App Tour</title>
+<meta name="description" content="A walk through every screen of Pocketday, a daily budget and savings app for India, built in Apper with Claude.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400..900&family=Inter:wght@400..700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #131118; --bg2: #1c1924; --line: #34303d;
+    --text: #f4f1ea; --muted: #b9b4c4; --faint: #8f8a9b;
+    --lime: #d6f04a; --coral: #ff9a6b;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font: 17px/1.55 Inter, system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: var(--lime); }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 16px; }
+  h1, h2, h3 { font-family: Archivo, Inter, sans-serif; line-height: 1.08; }
+  h2 { font-size: clamp(30px, 4.4vw, 48px); font-weight: 900; margin-bottom: 14px; }
+  h3 { font-size: 22px; font-weight: 800; }
+  .kicker { font-size: 13px; font-weight: 700; letter-spacing: .2em; color: var(--lime); text-transform: uppercase; margin-bottom: 14px; }
+  .lead { font-size: clamp(18px, 2vw, 21px); color: var(--muted); max-width: 720px; }
+  section { padding: 72px 0; border-top: 1px solid var(--line); }
+
+  /* top bar */
+  .bar { position: sticky; top: 0; z-index: 5; background: rgba(19,17,24,.86); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+  .bar .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; gap: 12px; }
+  .brand { display: flex; align-items: center; gap: 10px; font: 900 20px Archivo, sans-serif; color: var(--text); text-decoration: none; }
+  .brand .mark { width: 26px; height: 26px; border-radius: 50%; border: 5px solid transparent; background: conic-gradient(from 200deg, #5fd8e6, #d6f04a, #ffb547, #ff5fa2, #5fd8e6) border-box; -webkit-mask: radial-gradient(circle, transparent 7px, #000 8px); mask: radial-gradient(circle, transparent 7px, #000 8px); }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; border-radius: 999px; font-weight: 700; text-decoration: none; font-size: 16px; white-space: nowrap; }
+  .btn.primary { background: var(--lime); color: var(--bg); }
+  .btn.ghost { border: 1px solid var(--line); color: var(--text); }
+  .bar .btn { padding: 9px 16px; font-size: 14px; }
+
+  /* hero */
+  .hero { padding: 64px 0 72px; border: 0; }
+  .hero .wrap { display: grid; grid-template-columns: 1.1fr .9fr; gap: 48px; align-items: center; }
+  .hero h1 { font-size: clamp(56px, 9vw, 112px); font-weight: 900; margin-bottom: 18px; }
+  .hero .lead { margin-bottom: 28px; }
+  .hero .ctas { display: flex; flex-wrap: wrap; gap: 12px; }
+  .hero .phones { display: flex; gap: 18px; justify-content: center; }
+  .hero .phones .phone:nth-child(2) { margin-top: 56px; }
+  .note { margin-top: 22px; font-size: 14px; color: var(--faint); }
+
+  /* phone frames */
+  .phone { flex: 0 0 auto; width: 230px; background: #000; border: 2px solid var(--line); border-radius: 38px; padding: 9px; cursor: zoom-in; transition: transform .2s; }
+  .phone:hover { transform: translateY(-4px); }
+  .phone img { display: block; width: 100%; aspect-ratio: 375 / 812; object-fit: cover; border-radius: 30px; }
+  figure { flex: 0 0 auto; width: 230px; }
+  figcaption { margin-top: 12px; font-size: 15px; color: var(--muted); }
+  figcaption b { display: block; color: var(--text); font-size: 16px; }
+  .tag { display: inline-block; margin-top: 6px; font-size: 12px; font-weight: 700; color: var(--coral); border: 1px solid var(--coral); border-radius: 999px; padding: 2px 9px; }
+
+  /* statement */
+  .statement { background: var(--lime); color: var(--bg); border: 0; }
+  .statement .kicker { color: var(--bg); }
+  .statement p.big { font: 900 clamp(30px, 4.6vw, 56px)/1.1 Archivo, sans-serif; max-width: 1000px; }
+  .statement p.sub { margin-top: 22px; font-size: 20px; max-width: 760px; }
+
+  /* math */
+  .math { display: grid; grid-template-columns: 1fr auto; gap: 48px; align-items: start; }
+  table { width: 100%; border-collapse: collapse; margin-top: 18px; font-size: 18px; }
+  th { text-align: left; font-size: 13px; letter-spacing: .12em; color: var(--faint); font-weight: 600; padding: 10px 0; border-bottom: 1px solid var(--line); }
+  td { padding: 13px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+  td:last-child, th:last-child { text-align: right; }
+  tr.total td { font-weight: 700; }
+  tr.day td { border: 0; color: var(--lime); font-weight: 800; font-size: 21px; }
+  .small { font-size: 15px; color: var(--muted); margin-top: 16px; }
+
+  /* screen tour */
+  .chapter { margin-top: 56px; }
+  .chapter:first-of-type { margin-top: 36px; }
+  .chapter > p { color: var(--muted); max-width: 720px; margin: 8px 0 22px; }
+  .row { display: flex; gap: 22px; overflow-x: auto; padding: 6px 2px 18px; scroll-snap-type: x mandatory; }
+  .row figure { scroll-snap-align: start; }
+  .row::-webkit-scrollbar { height: 8px; }
+  .row::-webkit-scrollbar-thumb { background: var(--line); border-radius: 8px; }
+
+  /* cards */
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-top: 28px; }
+  .card { background: var(--bg2); border: 1px solid var(--line); border-radius: 20px; padding: 26px; }
+  .card h3 { color: var(--lime); margin-bottom: 8px; font-size: 20px; }
+  .card p { color: var(--muted); }
+  .card .num { font: 900 44px/1 Archivo, sans-serif; color: var(--lime); margin-bottom: 10px; }
+  .status { color: var(--lime); font-weight: 700; }
+  .status.next { color: var(--coral); }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 28px; }
+  .two .card ul { list-style: none; display: grid; gap: 8px; margin-top: 12px; color: var(--text); }
+  .two .card li::before { content: "•"; color: var(--faint); margin-right: 10px; }
+  .card.live { border-color: var(--lime); }
+  .card.soon { border-color: var(--coral); }
+  .card.soon h3 { color: var(--coral); }
+
+  footer { padding: 40px 0 56px; border-top: 1px solid var(--line); color: var(--faint); font-size: 14px; }
+  footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
+
+  /* lightbox */
+  dialog { margin: auto; border: 0; background: transparent; max-width: 92vw; max-height: 92vh; }
+  dialog::backdrop { background: rgba(8,7,10,.88); }
+  dialog img { display: block; max-height: 88vh; max-width: 92vw; border-radius: 28px; border: 2px solid var(--line); }
+  dialog button { position: fixed; top: 16px; right: 16px; width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line); background: var(--bg2); color: var(--text); font-size: 22px; cursor: pointer; }
+
+  @media (max-width: 860px) {
+    .hero .wrap, .math, .two { grid-template-columns: 1fr; }
+    .hero .phones .phone { width: 46%; max-width: 220px; }
+    .math .phone { margin: 0 auto; }
+    section { padding: 56px 0; }
+  }
+  @media (max-width: 480px) {
+    .bar .btn { display: none; }
+    .phone, figure { width: 200px; }
+    table { font-size: 16px; }
+  }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .phone { transition: none; } }
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="wrap">
+    <a class="brand" href="#top"><span class="mark" aria-hidden="true"></span>Pocketday</a>
+    <a class="btn primary" href="https://preview--geniuspocketday.apper.so" target="_blank" rel="noopener">Try the app</a>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <p class="kicker">Built in Apper with Claude</p>
+        <h1>Pocketday</h1>
+        <p class="lead">Your pay, split before you spend. One number a day for everything else. A daily budget and savings app for India.</p>
+        <div class="ctas">
+          <a class="btn primary" href="https://preview--geniuspocketday.apper.so" target="_blank" rel="noopener">Try the app</a>
+          <a class="btn ghost" href="#screens">See every screen</a>
+        </div>
+        <p class="note">Every screen here shows an example month. Made-up data, no real bank details.</p>
+      </div>
+      <div class="phones">
+        <div class="phone"><img src="img/today.jpg" alt="Today screen: ₹347 left today, day 15 of 30"></div>
+        <div class="phone"><img src="img/card.jpg" alt="Pocket card with ₹55,596 free this cycle"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="statement">
+    <div class="wrap">
+      <p class="kicker">What it does</p>
+      <p class="big">On payday, bills and savings come out first. What's left becomes one number you can spend today.</p>
+      <p class="sub">No spreadsheets, no category maths. Open the app, see today's number, and know whether a coffee or a Myntra order still fits.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap math">
+      <div>
+        <p class="kicker">The daily number</p>
+        <h2>How it's worked out</h2>
+        <table>
+          <tr><th>Step</th><th>Example month</th></tr>
+          <tr><td>Pay this cycle</td><td>₹5,00,000</td></tr>
+          <tr><td>Bills and EMIs set aside</td><td>− ₹39,196</td></tr>
+          <tr><td>Invest (20% of pay)</td><td>− ₹1,00,000</td></tr>
+          <tr><td>Save (60% of pay)</td><td>− ₹3,00,000</td></tr>
+          <tr class="total"><td>Left to live on</td><td>₹60,804</td></tr>
+          <tr class="day"><td>Divided by 30 days</td><td>₹2,026 a day</td></tr>
+        </table>
+        <p class="small">The daily number is rounded down, so it never promises more than you have. You choose the invest and save amounts; the app gives no investment advice.</p>
+      </div>
+      <div class="phone"><img src="img/plan.jpg" alt="Plan screen splitting ₹5,00,000 into bills, invest, save and living money"></div>
+    </div>
+  </section>
+
+  <section id="screens">
+    <div class="wrap">
+      <p class="kicker">Screen tour</p>
+      <h2>Every screen, with the example month</h2>
+      <p class="lead">Tap any screen to see it bigger. Swipe sideways on a row to see more.</p>
+
+      <div class="chapter">
+        <h3>Today</h3>
+        <p>The ring fills as you spend. In the example, Zepto, a café, Myntra and Swiggy add up to ₹1,679 of the ₹2,026 daily number, so ₹347 is left today.</p>
+        <div class="row">
+          <figure><div class="phone"><img src="img/today.jpg" alt="Today ring with ₹347 left" loading="lazy"></div><figcaption><b>Your day</b>One ring, one number</figcaption></figure>
+          <figure><div class="phone"><img src="img/card.jpg" alt="Pocket card and today's activity" loading="lazy"></div><figcaption><b>Pocket card</b>What's free for the rest of the cycle</figcaption></figure>
+          <figure><div class="phone"><img src="img/pockets-home.jpg" alt="Pockets and recent memories on the home screen" loading="lazy"></div><figcaption><b>Pockets and memories</b>Further down the home screen</figcaption></figure>
+        </div>
+      </div>
+
+      <div class="chapter">
+        <h3>Plan</h3>
+        <p>Bills, invest and save come out first. What's left is split into pockets for everyday life, and anything unspent rolls into a big-buy fund.</p>
+        <div class="row">
+          <figure><div class="phone"><img src="img/plan.jpg" alt="Plan: pay and the daily number" loading="lazy"></div><figcaption><b>The split</b>Pay to ₹2,026 a day, live as you type</figcaption></figure>
+          <figure><div class="phone"><img src="img/payyourself.jpg" alt="Bills list and Pay yourself with Invest and Save" loading="lazy"></div><figcaption><b>Pay yourself first</b>Invest and save moved out on payday</figcaption></figure>
+          <figure><div class="phone"><img src="img/bigbuy.jpg" alt="Big-buy fund and first pockets" loading="lazy"></div><figcaption><b>Big-buy fund</b>Unspent money from past cycles</figcaption></figure>
+          <figure><div class="phone"><img src="img/pockets.jpg" alt="Shopping, cabs and subscriptions pockets" loading="lazy"></div><figcaption><b>Pockets</b>Each shows what's spent this cycle</figcaption></figure>
+        </div>
+      </div>
+
+      <div class="chapter">
+        <h3>Bills and cycles</h3>
+        <p>Rent, EMIs, phone and subscriptions like ChatGPT Plus and Meta Verified are set aside before the daily number. Pause a bill and its money goes back into the day.</p>
+        <div class="row">
+          <figure><div class="phone"><img src="img/bills.jpg" alt="Bills: ₹39,196 set aside, 8 reserved, 1 paused" loading="lazy"></div><figcaption><b>Bills</b>₹39,196 set aside each cycle</figcaption></figure>
+          <figure><div class="phone"><img src="img/billslist.jpg" alt="Bills by due date, all reserved" loading="lazy"></div><figcaption><b>All bills</b>Due date, amount, reserved or paused</figcaption></figure>
+          <figure><div class="phone"><img src="img/billdetail.jpg" alt="Paused gym membership bill" loading="lazy"></div><figcaption><b>One bill</b>Paused; reserve it again any time</figcaption></figure>
+          <figure><div class="phone"><img src="img/cycles.jpg" alt="Cycles list" loading="lazy"></div><figcaption><b>Cycles</b>Payday to payday, one number each</figcaption></figure>
+          <figure><div class="phone"><img src="img/cyclemath.jpg" alt="Cycle detail: the math line by line" loading="lazy"></div><figcaption><b>The math</b>Every rupee from pay to the daily number</figcaption></figure>
+        </div>
+      </div>
+
+      <div class="chapter">
+        <h3>Activity</h3>
+        <p>Every payment, refund and transfer, and whether it counted. When the bank sends the same SMS twice, the copy is crossed out and not counted.</p>
+        <div class="row">
+          <figure><div class="phone"><img src="img/activity.jpg" alt="Activity list with a duplicate crossed out" loading="lazy"></div><figcaption><b>Activity</b>Search, filter, or show what needs review</figcaption></figure>
+          <figure><div class="phone"><img src="img/txdetail.jpg" alt="Swiggy payment marked duplicate" loading="lazy"></div><figcaption><b>Payment detail</b>Duplicate shown, not counted</figcaption></figure>
+          <figure><div class="phone"><img src="img/addtx.jpg" alt="Add a transaction form" loading="lazy"></div><figcaption><b>Add a payment</b>Merchant, place, amount, time</figcaption></figure>
+        </div>
+      </div>
+
+      <div class="chapter">
+        <h3>Insights</h3>
+        <p>How the last 7 days compare with the daily number, spend per category this cycle, and payments that look like they repeat every month.</p>
+        <div class="row">
+          <figure><div class="phone"><img src="img/insights.jpg" alt="Last 7 days chart against the daily allowance" loading="lazy"></div><figcaption><b>Last 7 days</b>Days that went over turn coral</figcaption></figure>
+          <figure><div class="phone"><img src="img/recurring.jpg" alt="This cycle by category and a recurring Netflix payment" loading="lazy"></div><figcaption><b>Looks recurring</b>Netflix spotted; track it as a bill</figcaption></figure>
+        </div>
+      </div>
+
+      <div class="chapter">
+        <h3>Memories and setup</h3>
+        <p>Every purchase becomes a card with the place, time and amount. Quick start loads the example month into your own account so you can try everything.</p>
+        <div class="row">
+          <figure><div class="phone"><img src="img/memories.jpg" alt="Memories: a Swiggy card" loading="lazy"></div><figcaption><b>Memories</b>The last 120 days as moments</figcaption></figure>
+          <figure><div class="phone"><img src="img/quickstart.jpg" alt="Quick start screen" loading="lazy"></div><figcaption><b>Quick start</b>The example month, only for you</figcaption></figure>
+          <figure><div class="phone"><img src="img/categories.jpg" alt="Categories with monthly limits" loading="lazy"></div><figcaption><b>Categories</b>The colours on the ring, with limits</figcaption></figure>
+          <figure><div class="phone"><img src="img/iphone.jpg" alt="Connect iPhone setup screen" loading="lazy"></div><figcaption><b>Connect iPhone</b>Bank SMS through a Shortcut<span class="tag">Prototype, not on Apper yet</span></figcaption></figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <p class="kicker">Data</p>
+      <h2>How spending gets into the app</h2>
+      <table>
+        <tr><th>Way in</th><th>What happens</th><th>Status</th></tr>
+        <tr><td><b>Add by hand</b></td><td>Tap +, type the amount and merchant, pick a pocket</td><td class="status">Live</td></tr>
+        <tr><td><b>Quick start</b></td><td>Loads the example month into your own account</td><td class="status">Live</td></tr>
+        <tr><td><b>iPhone Shortcut</b></td><td>An automation you set up forwards bank debit SMS</td><td class="status next">Coming next</td></tr>
+      </table>
+      <p class="small">iPhone does not let any app read your text messages, and Pocketday never asks for that permission. The Shortcut only forwards the messages you choose. It works in a local prototype today and is not yet tested on a real iPhone or on Apper.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <p class="kicker">Trust</p>
+      <h2>Safety and privacy</h2>
+      <div class="grid">
+        <div class="card"><h3>Your rows are yours</h3><p>Apper's row rules let each account see and change only its own bills, budgets and payments.</p></div>
+        <div class="card"><h3>No bank logins</h3><p>The app never asks for bank passwords, card numbers or access to your messages.</p></div>
+        <div class="card"><h3>No secrets in the code</h3><p>Only public project keys ship with the app; anything private stays in Apper Secrets.</p></div>
+        <div class="card"><h3>No investment advice</h3><p>You choose what to invest and save. Pocketday keeps it aside and doesn't say where to put it.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <p class="kicker">Try it</p>
+      <h2>Try it yourself in two minutes</h2>
+      <div class="grid">
+        <div class="card"><div class="num">1</div><h3>Open the app</h3><p>On your phone, open <a href="https://preview--geniuspocketday.apper.so" target="_blank" rel="noopener">the preview link</a>.</p></div>
+        <div class="card"><div class="num">2</div><h3>Sign up</h3><p>Make your own account. No bank details needed.</p></div>
+        <div class="card"><div class="num">3</div><h3>Tap Quick start</h3><p>It loads the example month, so you see the screens on this page.</p></div>
+        <div class="card"><div class="num">4</div><h3>Make it yours</h3><p>Tap Set up my month and enter your own pay and bills.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <p class="kicker">Roadmap</p>
+      <h2>What's live and what comes next</h2>
+      <div class="two">
+        <div class="card live"><h3>Live now on Apper</h3><ul><li>Daily number, ring and pocket card</li><li>Plan: bills, invest, save and pockets</li><li>Activity with duplicates and refunds</li><li>Insights and Memories</li><li>Quick start example month</li></ul></div>
+        <div class="card soon"><h3>Coming next</h3><ul><li>iPhone Shortcut for bank SMS</li><li>Verified offers</li><li>₹50 membership, in sandbox test mode first</li><li>Your own photos on memories</li><li>Export and delete your data</li></ul></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Pocketday · Built in Apper with Claude · Maester Labs</span>
+    <span>Example month shown. Made-up data, no real bank details.</span>
+  </div>
+</footer>
+
+<dialog id="zoom"><button type="button" aria-label="Close">×</button><img alt=""></dialog>
+<script>
+  const dlg = document.getElementById('zoom');
+  const big = dlg.querySelector('img');
+  document.querySelectorAll('.phone img').forEach(img => {
+    img.parentElement.addEventListener('click', () => {
+      big.src = img.src; big.alt = img.alt; dlg.showModal();
+    });
+  });
+  dlg.addEventListener('click', () => dlg.close());
+</script>
+</body>
+</html>
