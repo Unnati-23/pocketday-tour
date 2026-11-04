@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pocketday Review Access</title>
+<meta name="description" content="How the Apper team can log in to Pocketday, what to check, and what is working, example data, untested or not built yet.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400..900&family=Inter:wght@400..700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #131118; --bg2: #1c1924; --line: #34303d;
+    --text: #f4f1ea; --muted: #b9b4c4; --faint: #8f8a9b;
+    --lime: #d6f04a; --coral: #ff9a6b; --cyan: #5fd8e6;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font: 17px/1.55 Inter, system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: var(--lime); }
+  .wrap { max-width: 920px; margin: 0 auto; padding: 0 16px; }
+  h1, h2, h3 { font-family: Archivo, Inter, sans-serif; line-height: 1.1; }
+  h1 { font-size: clamp(38px, 6vw, 60px); font-weight: 900; margin-bottom: 12px; }
+  h2 { font-size: clamp(26px, 3.4vw, 34px); font-weight: 900; margin-bottom: 12px; }
+  h3 { font-size: 19px; font-weight: 800; margin-bottom: 6px; }
+  .kicker { font-size: 13px; font-weight: 700; letter-spacing: .2em; color: var(--lime); text-transform: uppercase; margin-bottom: 12px; }
+  .lead { color: var(--muted); font-size: 19px; }
+  section { padding: 48px 0; border-top: 1px solid var(--line); }
+  header.top { padding: 56px 0 40px; }
+  .back { display: inline-block; margin-bottom: 28px; font-size: 15px; color: var(--muted); text-decoration: none; }
+  .back:hover { color: var(--text); }
+
+  .facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; margin-top: 28px; }
+  .fact { background: var(--bg2); border: 1px solid var(--line); border-radius: 16px; padding: 18px 20px; min-width: 0; }
+  .fact span { display: block; font-size: 12px; letter-spacing: .14em; color: var(--faint); font-weight: 700; text-transform: uppercase; margin-bottom: 4px; }
+  .fact b, .fact a { font-size: 16px; overflow-wrap: anywhere; }
+  code { font: 15px ui-monospace, Menlo, monospace; background: var(--bg); padding: 2px 6px; border-radius: 6px; overflow-wrap: anywhere; }
+
+  .options { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 22px; }
+  .card { background: var(--bg2); border: 1px solid var(--line); border-radius: 18px; padding: 24px; }
+  .card.pick { border-color: var(--lime); }
+  .card p, .card li { color: var(--muted); }
+  .card ol { margin: 10px 0 0 20px; display: grid; gap: 6px; }
+  .badge { display: inline-block; font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 999px; margin-bottom: 10px; }
+  .badge.rec { background: var(--lime); color: var(--bg); }
+  .badge.alt { border: 1px solid var(--line); color: var(--muted); }
+
+  ol.steps { list-style: none; counter-reset: s; display: grid; gap: 12px; margin-top: 22px; }
+  ol.steps li { counter-increment: s; display: grid; grid-template-columns: 44px 1fr; gap: 14px; background: var(--bg2); border: 1px solid var(--line); border-radius: 16px; padding: 16px 18px; }
+  ol.steps li::before { content: counter(s); font: 900 28px/1 Archivo, sans-serif; color: var(--lime); }
+  ol.steps p { color: var(--muted); font-size: 16px; }
+
+  table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 16px; }
+  th { text-align: left; font-size: 12px; letter-spacing: .14em; color: var(--faint); font-weight: 700; padding: 10px 12px 10px 0; border-bottom: 1px solid var(--line); text-transform: uppercase; }
+  td { padding: 13px 12px 13px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+  td:first-child { font-weight: 600; width: 34%; }
+  td.note { color: var(--muted); }
+  .st { display: inline-block; font-size: 13px; font-weight: 700; padding: 3px 10px; border-radius: 999px; white-space: nowrap; }
+  .st.ok { background: rgba(214,240,74,.14); color: var(--lime); }
+  .st.ex { background: rgba(95,216,230,.14); color: var(--cyan); }
+  .st.un { background: rgba(255,154,107,.14); color: var(--coral); }
+  .st.no { border: 1px solid var(--line); color: var(--faint); }
+
+  footer { padding: 36px 0 56px; border-top: 1px solid var(--line); color: var(--faint); font-size: 14px; }
+
+  @media (max-width: 700px) {
+    .options { grid-template-columns: 1fr; }
+    table, tbody, tr, td { display: block; width: 100%; }
+    tr:first-child { display: none; }
+    tr { padding: 12px 0; border-bottom: 1px solid var(--line); }
+    td { border: 0; padding: 3px 0; }
+    td:first-child { width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="back" href="./">← Back to the app tour</a>
+    <p class="kicker">For the Apper team</p>
+    <h1>How to log in and review Pocketday</h1>
+    <p class="lead">Everything you need to open the app, try it with the example month, and see exactly what works today and what doesn't yet.</p>
+    <div class="facts">
+      <div class="fact"><span>App link</span><a href="https://preview--geniuspocketday.apper.so" target="_blank" rel="noopener">preview--geniuspocketday.apper.so</a></div>
+      <div class="fact"><span>Apper app ID</span><code>e33fccd8760542cdbd3f659fdd600268</code></div>
+      <div class="fact"><span>Built with</span><b>Claude, through the Apper MCP connection</b></div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section>
+    <div class="wrap">
+      <p class="kicker">Step 1</p>
+      <h2>Get into the app</h2>
+      <div class="options">
+        <div class="card pick">
+          <span class="badge rec">Recommended</span>
+          <h3>Make your own account</h3>
+          <ol>
+            <li>Open the app link above.</li>
+            <li>Tap <b>Sign up</b> and use any email and password.</li>
+            <li>Tap <b>Quick start</b> to load the example month.</li>
+          </ol>
+          <p style="margin-top:12px">Each reviewer gets a private account. Nothing you add is visible to anyone else.</p>
+        </div>
+        <div class="card">
+          <span class="badge alt">Alternative</span>
+          <h3>Use the reviewer account</h3>
+          <p>If you'd rather not sign up, Unnati will email you a reviewer login separately. Logins are never posted on this page.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <p class="kicker">Step 2</p>
+      <h2>What to check, in about five minutes</h2>
+      <ol class="steps">
+        <li><div><h3>Today's ring</h3><p>After Quick start, the Today screen shows the daily number (₹2,026) and how much is left after today's example spends.</p></div></li>
+        <li><div><h3>Add a payment and watch it update</h3><p>Tap <b>+</b>, add a ₹200 expense, save. The ring and "left today" change straight away.</p></div></li>
+        <li><div><h3>Duplicates aren't counted</h3><p>Open Activity. The second Swiggy ₹420 is crossed out as a duplicate SMS and doesn't count toward the day.</p></div></li>
+        <li><div><h3>Change the plan</h3><p>Open Plan, change the Save amount, and the daily number at the bottom recalculates before you save.</p></div></li>
+        <li><div><h3>Data separation</h3><p>Sign up a second account in a private window. It starts empty and can't see the first account's bills or payments.</p></div></li>
+        <li><div><h3>Start empty</h3><p>On the Quick start screen, <b>Start empty</b> removes only what Quick start added.</p></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <p class="kicker">Evidence sheet</p>
+      <h2>What's working, example, untested or not built</h2>
+      <table>
+        <tr><th>Feature</th><th>Status</th><th>Notes</th></tr>
+        <tr><td>Sign up and log in</td><td><span class="st ok">Working</span></td><td class="note">Apper's built-in login</td></tr>
+        <tr><td>Per-account data rules</td><td><span class="st ok">Working</span></td><td class="note">Each account reads and edits only its own rows</td></tr>
+        <tr><td>Daily number and Today ring</td><td><span class="st ok">Working</span></td><td class="note">Pay minus bills and savings, divided by days, rounded down</td></tr>
+        <tr><td>Plan: bills, invest, save, pockets</td><td><span class="st ok">Working</span></td><td class="note">User chooses the amounts; no investment advice</td></tr>
+        <tr><td>Bills and cycles</td><td><span class="st ok">Working</span></td><td class="note">Reserve or pause bills; cycle math line by line</td></tr>
+        <tr><td>Add a payment by hand</td><td><span class="st ok">Working</span></td><td class="note">Updates Today immediately</td></tr>
+        <tr><td>Duplicates and refunds</td><td><span class="st ok">Working</span></td><td class="note">Duplicates shown but not counted</td></tr>
+        <tr><td>Insights and "Looks recurring"</td><td><span class="st ok">Working</span></td><td class="note">Last 7 days, spend by category, repeat payments</td></tr>
+        <tr><td>Memories</td><td><span class="st ok">Working</span></td><td class="note">Covers are stock photos of the kind of place</td></tr>
+        <tr><td>Quick start month</td><td><span class="st ex">Example data</span></td><td class="note">Made-up month, loaded only into the account that taps it</td></tr>
+        <tr><td>iPhone Shortcut for bank SMS</td><td><span class="st un">Untested</span></td><td class="note">Prototype on a local copy only; not on Apper, not yet tested on a real iPhone</td></tr>
+        <tr><td>Verified offers</td><td><span class="st no">Not built yet</span></td><td class="note">Only genuine, sourced offers will be added</td></tr>
+        <tr><td>₹50 membership</td><td><span class="st no">Not built yet</span></td><td class="note">Will start in sandbox test mode; nothing charges money today</td></tr>
+        <tr><td>Data export and account deletion</td><td><span class="st no">Not built yet</span></td><td class="note">Planned</td></tr>
+        <tr><td>Own photos on memories</td><td><span class="st no">Not built yet</span></td><td class="note">Planned</td></tr>
+      </table>
+      <p style="margin-top:18px;color:var(--muted);font-size:15px">iPhone doesn't let any app read text messages, and Pocketday never asks for that permission.</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">Pocketday · Built in Apper with Claude · Maester Labs. All screens and Quick start data are an example month with no real bank details.</div>
+</footer>
+</body>
+</html>
